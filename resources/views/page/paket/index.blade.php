@@ -37,7 +37,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            {{-- <div class="">
+                            <div class="">
                                 <label for="base-input"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis</label>
                                 <select class="js-example-placeholder-single js-states form-control w-full m-6"
@@ -48,14 +48,16 @@
                                     <option value="Sprei">Sprei</option>
                                     <option value="Karpet">Karpet</option>
                                     <option value="Selimut">Selimut</option>
+                                    <option value="Selimut">Gorden</option>
+                                    <option value="Selimut">Jaket</option>
                                 </select>
-                            </div>   --}}
-                            <div class="mb-5">
+                            </div>  
+                            {{-- <div class="mb-5">
                                 <label for="text" class="block mb-2 text-sm font-medium text-gray-900">Jenis</label>
                                 <input type="text" id="jenis" name="jenis"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Masukan Jenis disini...">
-                            </div>
+                            </div> --}}
                             <div class="mb-5">
                                 <label for="base-input"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Paket</label>
@@ -165,7 +167,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        {{-- <div class="">
+                        <div class="">
                             <label for="jenis"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis</label>
                             <select class="js-example-placeholder-single js-states form-control w-full m-6"
@@ -179,13 +181,13 @@
                                 <option value="Selimut">Gorden</option>
                                 <option value="Selimut">Jaket</option>
                             </select>
-                        </div>   --}}
-                        <div class="mb-5">
+                        </div>  
+                        {{-- <div class="mb-5">
                             <label for="text" class="block mb-2 text-sm font-medium text-gray-900">Jenis</label>
                             <input type="text" id="jenis" name="jenis"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Masukan Jenis disini...">
-                        </div>
+                        </div> --}}
                         <div class="mb-5">
                             <label for="nama_paket" class="block mb-2 text-sm font-medium text-gray-900">Nama Paket</label>
                             <input type="text" id="nama_paket" name="nama_paket"
