@@ -152,7 +152,7 @@
                             <label for="id_outlet_edit"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Outlet</label>
                             <select class="js-example-placeholder-single js-states form-control w-full m-6"
-                                name="id_outlet_edit" id="id_outlet_edit" data-placeholder="Pilih Outlet">
+                                name="id_outlet_edit" id="id_outlet" data-placeholder="Pilih Outlet">
                                 <option value="">Pilih...</option>
                                 @foreach ($outlet as $o)
                                     <option value="{{ $o->id }}">{{ $o->nama }}</option>                                        
@@ -163,8 +163,7 @@
                             <label for="jenis"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis</label>
                             <select class="js-example-placeholder-single js-states form-control w-full m-6"
-                                name="jenis" id="jenis
-                                " data-placeholder="Pilih Jenis">
+                                name="jenis" id="jenis" data-placeholder="Pilih Jenis">
                                 <option value="">Pilih...</option>
                                 <option value="Baju">Baju</option>
                                 <option value="Hoddie">Hoddie</option>
