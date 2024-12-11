@@ -38,6 +38,7 @@ class PaketController extends Controller
             'id_outlet' => $request->input('id_outlet'),
             'jenis' => $request->input('jenis'),
             'nama_paket' => $request->input('nama_paket'),
+            'harga' => $request->input('harga'),
         ];
 
         paket::create($data);
@@ -67,9 +68,10 @@ class PaketController extends Controller
     public function update(Request $request, string $id)
     {
         $data = [
-            'id_outlet' => $request->input('id_outlet_edit'),
+            'id_outlet' => $request->input('id_outlet'),
             'jenis' => $request->input('jenis'),
             'nama_paket' => $request->input('nama_paket'),
+            'harga' => $request->input('harga'),
         ];
 
         $datas = paket::findOrFail($id);

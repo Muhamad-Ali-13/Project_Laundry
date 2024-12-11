@@ -25,6 +25,7 @@ return new class extends Migration
             $table->enum('status',['baru','proses','selesai','diambil']);
             $table->enum('dibayar',['dibayar','belum dibayar']);
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
+            $table->integer('total_bayar');
             $table->timestamps();
         });
     }

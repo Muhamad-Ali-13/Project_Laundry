@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('id_outlet')->constrained('outlet')->onDelete('cascade');
             $table->string('jenis');
             $table->string('nama_paket');
+            $table->string('harga');
             $table->timestamps();
         });
     }

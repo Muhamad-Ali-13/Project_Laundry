@@ -54,7 +54,7 @@
                                             ALAMAT
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-
+                                            ACTIION
                                         </th>
                                     </tr>
                                 </thead>

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('PAKET') }}
         </h2>
     </x-slot>
 
@@ -40,16 +40,37 @@
                             <div class="mb-5">
                                 <label for="base-input"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis</label>
-                                <input name="jenis" type="text" id="base-input"
+                                <select class="js-example-placeholder-single js-states form-control w-full m-6"
+                                    name="jenis" data-placeholder="Pilih Jenis">
+                                    <option value="">Pilih...</option>
+                                    <option value="Baju">BAJU</option>
+                                    <option value="Hoddie">SPREI</option>
+                                    <option value="Sprei">HODDIE</option>
+                                    <option value="Karpet">KARPET</option>
+                                    <option value="Selimut">SELIMUT</option>
+                                    <option value="Selimut">GORDEN</option>
+                                    <option value="Selimut">JAKET</option>
+                                </select>
+                            </div>  
+                            {{-- <div class="mb-5">
+                                <label for="text" class="block mb-2 text-sm font-medium text-gray-900">Jenis</label>
+                                <input type="text" id="jenis" name="jenis"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Masukan Jenis disini...">
-                            </div>
+                            </div> --}}
                             <div class="mb-5">
                                 <label for="base-input"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Paket</label>
                                 <input name="nama_paket" type="text" id="base-input"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Masukan Nama Paket disini...">
+                            </div>
+                            <div class="mb-5">
+                                <label for="base-input"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga</label>
+                                <input name="harga" type="number" id="base-input"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Masukan Harga disini...">
                             </div>
                             <button type="submit"
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">SIMPAN</button>
@@ -66,7 +87,7 @@
                                             NO
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            ID OUTLET
+                                            OUTLET
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             JENIS
@@ -75,7 +96,10 @@
                                             NAMA PAKET
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-
+                                            HARGA
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            ACTION
                                         </th>
                                     </tr>
                                 </thead>
@@ -100,11 +124,15 @@
                                                 {{ $p->nama_paket }}
                                             </td>
                                             <td class="px-6 py-4">
+                                                {{ $p->harga }}
+                                            </td>
+                                            <td class="px-6 py-4">
                                                 <button type="button" data-id="{{ $p->id }}"
                                                     data-modal-target="sourceModal"
                                                     data-id_outlet="{{ $p->id_outlet }}"
                                                     data-jenis="{{ $p->jenis }}" 
-                                                    data-nama_paket="{{ $p->nama_paket }}" onclick="editSourceModal(this)"
+                                                    data-nama_paket="{{ $p->nama_paket }}" 
+                                                    data-harga="{{ $p->harga }}"onclick="editSourceModal(this)"
                                                     class="bg-amber-500 hover:bg-amber-600 px-3 py-1 rounded-md text-xs text-white">
                                                     Edit
                                                 </button>
@@ -142,11 +170,11 @@
                 <form method="POST" id="formSourceModal">
                     @csrf
                     <div class="flex flex-col  p-4 space-y-6">
-                        <div class="">
+                        <div class="mb-5">
                             <label for="id_outlet_edit"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Outlet</label>
                             <select class="js-example-placeholder-single js-states form-control w-full m-6"
-                                name="id_outlet_edit" data-placeholder="Pilih Produk">
+                                name="id_outlet_edit" id="id_outlet" data-placeholder="Pilih Outlet">
                                 <option value="">Pilih...</option>
                                 @foreach ($outlet as $o)
                                     <option value="{{ $o->id }}">{{ $o->nama }}</option>                                        
@@ -154,16 +182,37 @@
                             </select>
                         </div>
                         <div class="">
+                            <label for="jenis"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis</label>
+                            <select class="js-example-placeholder-single js-states form-control w-full m-6"
+                                name="jenis" id="jenis" data-placeholder="Pilih Jenis">
+                                <option value="">Pilih...</option>
+                                    <option value="Baju">BAJU</option>
+                                    <option value="Hoddie">SPREI</option>
+                                    <option value="Sprei">HODDIE</option>
+                                    <option value="Karpet">KARPET</option>
+                                    <option value="Selimut">SELIMUT</option>
+                                    <option value="Selimut">GORDEN</option>
+                                    <option value="Selimut">JAKET</option>
+                            </select>
+                        </div>  
+                        {{-- <div class="mb-5">
                             <label for="text" class="block mb-2 text-sm font-medium text-gray-900">Jenis</label>
                             <input type="text" id="jenis" name="jenis"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Masukan Jenis disini...">
-                        </div>
-                        <div class="">
-                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900">Nama Paket</label>
+                        </div> --}}
+                        <div class="mb-5">
+                            <label for="nama_paket" class="block mb-2 text-sm font-medium text-gray-900">Nama Paket</label>
                             <input type="text" id="nama_paket" name="nama_paket"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Masukan Nama Paket disini...">
+                        </div>
+                        <div class="mb-5">
+                            <label for="harga" class="block mb-2 text-sm font-medium text-gray-900">Harga</label>
+                            <input type="number" id="harga" name="harga"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Masukan Harga disini...">
                         </div>
                     </div>
                     <div class="flex items-center p-4 space-x-2 border-t border-gray-200 rounded-b">
@@ -185,6 +234,7 @@
         const id_outlet = button.dataset.id_outlet;
         const jenis = button.dataset.jenis;
         const nama_paket = button.dataset.nama_paket;
+        const harga = button.dataset.harga;
 
         let url = "{{ route('paket.update', ':id') }}".replace(':id', id);
 
@@ -199,6 +249,7 @@
 
         document.getElementById('nama_paket').value = nama_paket;
         document.getElementById('jenis').value = jenis;
+        document.getElementById('harga').value = harga;
 
         document.getElementById('formSourceButton').innerText = 'Simpan';
         document.getElementById('formSourceModal').setAttribute('action', url);

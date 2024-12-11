@@ -53,6 +53,7 @@ class TransaksiController extends Controller
             'status' => $request->input('status'),
             'dibayar' => $request->input('dibayar'),
             'id_user' => $request->input('id_user'),
+            'total_bayar' => $request->input('total_bayar'),
         ];
 
         Transaksi::create($data);
@@ -94,6 +95,7 @@ class TransaksiController extends Controller
             'status' => $request->input('status'),
             'dibayar' => $request->input('dibayar'),
             'id_user' => $request->input('id_user'),
+            'total_bayar' => $request->input('total_bayar')
         ];
 
         $datas = Transaksi::findOrFail($id);

@@ -12,7 +12,8 @@ class Paket extends Model
     protected $fillable = [
         'id_outlet',
         'jenis',
-        'nama_paket'
+        'nama_paket',
+        'harga'
     ];
 
     protected $table = 'paket';
