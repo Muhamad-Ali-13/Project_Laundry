@@ -44,7 +44,7 @@
                                     Invoice</label>
                                 <input name="kode_invoice" type="text" id="kode_invoice"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Masukan Nama transaksi disini...">
+                                    placeholder="Masukan Kode Invoice disini...">
                             </div>
                             <div class="mb-5">
                                 <label for="member"
@@ -62,23 +62,23 @@
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal</label>
                                 <input name="tanggal" type="date" id="tanggal"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Masukan Nama transaksi disini...">
+                                    placeholder="Masukan Tanggal disini...">
                             </div>
                             <div class="mb-5">
                                 <label for="batas_waktu"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Batas
                                     Waktu</label>
-                                <input name="batas_waktu" type="datetime" id="batas_waktu"
+                                <input name="batas_waktu" type="date" id="batas_waktu"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Masukan Nama transaksi disini...">
+                                    placeholder="Masukan Batas Waktu disini...">
                             </div>
                             <div class="mb-5">
                                 <label for="tgl_bayar"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal
                                     Bayar</label>
-                                <input name="tgl_bayar" type="datetime" id="tgl_bayar"
+                                <input name="tgl_bayar" type="date" id="tgl_bayar"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Masukan Nama transaksi disini...">
+                                    placeholder="Masukan Tanggal Bayar disini...">
                             </div>
                             <div class="mb-5">
                                 <label for="biaya_tambahan"
@@ -86,37 +86,37 @@
                                     Tambahan</label>
                                 <input name="biaya_tambahan" type="number" id="biaya_tambahan"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Masukan Nama transaksi disini...">
+                                    placeholder="Masukan Biaya Tambahan disini...">
                             </div>
                             <div class="mb-5">
                                 <label for="diskon"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Diskon</label>
                                 <input name="diskon" type="number" id="diskon"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Masukan Nama transaksi disini...">
+                                    placeholder="Masukan Diskon disini...">
                             </div>
                             <div class="mb-5">
                                 <label for="pajak"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pajak</label>
                                 <input name="pajak" type="number" id="pajak"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Masukan Nama transaksi disini...">
+                                    placeholder="Masukan Pajak disini...">
                             </div>
                             <div class="mb-5">
                                 <label for="status"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
                                 <input name="status" type="text" id="status"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Masukan Nama transaksi disini...">
+                                    placeholder="Masukan Status disini...">
                             </div>
                             <div class="mb-5">
                                 <label for="dibayar"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">dibayar</label>
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dibayar</label>
                                 <input name="dibayar" type="text" id="dibayar"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Masukan Nama transaksi disini...">
+                                    placeholder="Masukan Dibayar disini...">
                             </div>
-                            <div class="mb-5">
+                            {{-- <div class="mb-5">
                                 <label for="id_user"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User</label>
                                 <select class="js-example-placeholder-single js-states form-control w-full m-6"
@@ -126,7 +126,7 @@
                                         <option value="{{ $u->id }}">{{ $u->nama }}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
                             <button type="submit"
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">SIMPAN</button>
                         </form>

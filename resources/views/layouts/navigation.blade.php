@@ -36,25 +36,18 @@
 
                             <x-slot name="content">
                                 
-                                <x-dropdown-link :href="route('outlet.index')">
-                                    {{ __('Outlet') }}
-                                </x-dropdown-link>
-
                                 <x-dropdown-link :href="route('member.index')">
                                     {{ __('Member') }}
+                                </x-dropdown-link>
+
+                                <x-dropdown-link :href="route('outlet.index')">
+                                    {{ __('Outlet') }}
                                 </x-dropdown-link>
 
                                 <x-dropdown-link :href="route('paket.index')">
                                     {{ __('Paket') }}
                                 </x-dropdown-link>
 
-                                <x-dropdown-link :href="route('transaksi.index')">
-                                    {{ __('Transaksi') }}
-                                </x-dropdown-link>
-
-                                <x-dropdown-link :href="route('dashboard')">
-                                    {{ __('Konsinyasi Produk') }}
-                                </x-dropdown-link>
                             </x-slot>
                         </x-dropdown>
                     </li>
@@ -77,13 +70,11 @@
                                 </button>
                             </x-slot>
                             <x-slot name="content">
-                                <x-dropdown-link :href="route('dashboard')">
-                                    {{ __('Pembelian') }}
+                                
+                                <x-dropdown-link :href="route('transaksi.index')">
+                                    {{ __('Transaksi') }}
                                 </x-dropdown-link>
 
-                                <x-dropdown-link :href="route('dashboard')">
-                                    {{ __('Penjualan') }}
-                                </x-dropdown-link>
                             </x-slot>
                         </x-dropdown>
                     </li>
