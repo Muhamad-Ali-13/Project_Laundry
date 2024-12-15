@@ -15,6 +15,17 @@ class TransaksiController extends Controller
      */
     public function index()
     {
+        $data = Transaksi::paginate(5);
+        return view('page.transaksi.index')->with([
+            'data' => $data,
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
         $transaksi = Transaksi::paginate(5);
         $outlet = Outlet::all();
         $member = Member::all();
@@ -25,14 +36,6 @@ class TransaksiController extends Controller
             'member' => $member,
             'user' => $user
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
