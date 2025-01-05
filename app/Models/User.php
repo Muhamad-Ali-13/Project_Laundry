@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -47,10 +48,10 @@ class User extends Authenticatable
     }
     public function outlet()
     {
-        return $this->belongsTo(Outlet::class);
+        return $this->belongsTo(Outlet::class, 'id');
     }
 
     public function transaksi(){
-        return $this->hasMany(Transaksi::class, 'id');
+        return $this->hasMany(Transaksi::class, 'id_user', 'id');
     }
 }

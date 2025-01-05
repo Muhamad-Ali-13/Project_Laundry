@@ -35,8 +35,10 @@
                             </div>
                             <div class="mb-5">
                                 <label for="base-input"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis Kelamin</label>
-                                <select name="jenis_kelamin" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis
+                                    Kelamin</label>
+                                <select name="jenis_kelamin" id="base-input"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="L">Laki-Laki</option>
                                     <option value="P">Perempuan</option>
                                 </select>
@@ -90,17 +92,20 @@
                                                 {{ $k->jenis_kelamin }}
                                             </td>
                                             <td class="px-6 py-4">
-                                                <button type="button" data-id="{{ $k->id }}"
-                                                    data-modal-target="sourceModal"
+                                                <button type="button"
+                                                    class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"
+                                                    onclick="editSourceModal(this)" data-modal-target="sourceModal"
+                                                    data-id="{{ $k->id }}"
                                                     data-nama="{{ $k->nama }}"
                                                     data-alamat="{{ $k->alamat }}"
-                                                    data-jenis_kelamin="{{ $k->jenis_kelamin }}" onclick="editSourceModal(this)"
-                                                    class="bg-amber-500 hover:bg-amber-600 px-3 py-1 rounded-md text-xs text-white">
-                                                    Edit
+                                                    data-jenis_kelamin="{{ $k->jenis_kelamin }}">
+                                                    <i class="fi fi-sr-file-edit"></i>
                                                 </button>
                                                 <button
-                                                    onclick="return memberDelete('{{ $k->id }}','{{ $k->nama }}')"
-                                                    class="bg-red-500 hover:bg-bg-red-300 px-3 py-1 rounded-md text-xs text-white">Delete</button>
+                                                    class="bg-red-400 mt-3 p-3 w-10 h-10 rounded-xl text-white hover:bg-red-500"
+                                                    onclick="return memberDelete('{{ $k->id }}','{{ $k->nama }}')">
+                                                    <i class="fi fi-sr-delete-document"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -146,8 +151,10 @@
                         </div>
                         <div class="">
                             <label for="jenis_kelamin"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis Kelamin</label>
-                            <select name="jenis_kelamin" id="jenis_kelamin" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis
+                                Kelamin</label>
+                            <select name="jenis_kelamin" id="jenis_kelamin"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="L">Laki-Laki</option>
                                 <option value="P">Perempuan</option>
                             </select>
@@ -218,7 +225,13 @@
                 })
                 .then(function(response) {
                     // Handle success
-                    location.reload();
+                    // location.reload();
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: '{{ session('message_delete') }}',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
                 })
                 .catch(function(error) {
                     // Handle error
@@ -228,3 +241,23 @@
         }
     }
 </script>
+@if (session('success'))
+    <script>
+        Swal.fire({
+            title: 'Success!',
+            text: '{{ session('success') }}',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
+@if (session('message_update'))
+    <script>
+        Swal.fire({
+            title: 'Updated!',
+            text: '{{ session('message_update') }}',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif

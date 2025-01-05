@@ -28,21 +28,7 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        {{-- id_outlet --}}
-        <div>
-            <x-input-label for="id_outlet" :value="__('id_outlet')" />
-            <x-text-input id="id_outlet" class="block mt-1 w-full" type="text" name="id_outlet" :value="old('id_outlet')" autofocus autocomplete="id_outlet" />
-            <x-input-error :messages="$errors->get('id_outlet')" class="mt-2" />
-        </div>
-
-        {{-- Role --}}
-        <div>
-            <x-input-label for="role" :value="__('Role')" />
-            <x-text-input id="role" class="block mt-1 w-full" type="text" name="role" :value="old('role')" required  autofocus autocomplete="role" />
-            <x-input-error :messages="$errors->get('role')" class="mt-2" />
-                
-        </div>
-
+        
         <!-- Confirm Password -->
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
@@ -52,6 +38,25 @@
                             name="password_confirmation" required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        </div>
+
+        <!-- Role -->
+        <div class="mb-5">
+            <label for="role"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
+            <select name="role" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value=""></option>
+                <option value="A">Admin</option>
+                <option value="U">User</option>
+                <option value="O">Owner</option>
+            </select>
+        </div>
+
+        {{-- id_outlet --}}
+        <div>
+            <x-input-label for="id_outlet" :value="__('id_outlet')" />
+            <x-text-input id="id_outlet" class="block mt-1 w-full" type="text" name="id_outlet" :value="old('id_outlet')" autofocus autocomplete="id_outlet" />
+            <x-input-error :messages="$errors->get('id_outlet')" class="mt-2" />
         </div>
 
         <div class="flex items-center justify-end mt-4">

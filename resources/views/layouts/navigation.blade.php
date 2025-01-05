@@ -16,6 +16,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                @can('role-A')
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <li class="relative list-none">
                         <x-dropdown>
@@ -36,10 +37,6 @@
 
                             <x-slot name="content">
                                 
-                                <x-dropdown-link :href="route('member.index')">
-                                    {{ __('Member') }}
-                                </x-dropdown-link>
-
                                 <x-dropdown-link :href="route('outlet.index')">
                                     {{ __('Outlet') }}
                                 </x-dropdown-link>
@@ -48,10 +45,16 @@
                                     {{ __('Paket') }}
                                 </x-dropdown-link>
 
+                                <x-dropdown-link :href="route('member.index')">
+                                    {{ __('Member') }}
+                                </x-dropdown-link>
+
                             </x-slot>
                         </x-dropdown>
                     </li>
                 </div>
+                @endcan
+
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <li class="relative list-none">
                         <x-dropdown>
@@ -75,14 +78,12 @@
                                     {{ __('Transaksi') }}
                                 </x-dropdown-link>
 
-                                <x-dropdown-link :href="route('dashboard')">
-                                    {{ __('Detail Transaksi') }}
-                                </x-dropdown-link>
-
                             </x-slot>
                         </x-dropdown>
                     </li>
                 </div>
+                
+                @can('role-A')
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <li class="relative list-none">
                         <x-dropdown>
@@ -102,13 +103,14 @@
                             </x-slot>
 
                             <x-slot name="content">
-                                <x-dropdown-link :href="route('dashboard')">
+                                <x-dropdown-link :href="route('laporanTransaksi.index')">
                                     {{ __('Laporan') }}
                                 </x-dropdown-link>
                             </x-slot>
                         </x-dropdown>
                     </li>
                 </div>
+                @endcan
             </div>
 
             <!-- Settings Dropdown -->

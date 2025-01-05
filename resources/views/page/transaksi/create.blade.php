@@ -1,4 +1,4 @@
-{{-- <x-app-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Transaksi') }}
@@ -7,57 +7,233 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form class="w-full mx-auto" method="POST" action="{{ route('penjualan.store') }}">
-                        @csrf
-                        <div class="mb-5">
-                            <label for="konsumen"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Konsumen</label>
-                            <select class="js-example-placeholder-single js-states form-control w-full m-6"
-                                id="id_konsumen" name="id_konsumen" data-placeholder="Pilih Konsumen">
-                                <option value="">Pilih...</option>
-                                @foreach ($konsumen as $k)
-                                    <option value="{{ $k->id }}">{{ $k->konsumen }}</option>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <div class="font-bold text-lg mb-4">Form Input Transaksi</div>
+                <form method="POST" action="{{ route('transaksi.store') }}">
+                    @csrf
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="id_outlet" class="block text-sm font-medium text-gray-700">Outlet</label>
+                            <select id="id_outlet" name="id_outlet"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                <option value=""></option>
+                                @foreach ($outlet as $o)
+                                    <option value="{{ $o->id }}">{{ $o->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="mb-5">
-                            <label for="tgl_penjualan"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal
-                                Penjualan</label>
-                            <input type="date" id="tgl_penjualan" name="tgl_penjualan"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required />
+
+                        <div>
+                            <label for="kode_invoice" class="block text-sm font-medium text-gray-700">Kode
+                                Invoice</label>
+                            <input type="text" id="kode_invoice" name="kode_invoice" value="{{ $kodeInvoice }}"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                readonly>
                         </div>
-                        <div class="mb-5">
-                            <label for="status_pembelian"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status
-                                Pembelian</label>
-                            <select class="js-example-placeholder-single js-states form-control w-full m-6"
-                                id="status_pembelian" name="status_pembelian" data-placeholder="Pilih Status Pembelian">
-                                <option value="">Pilih...</option>
-                                <option value="LUNAS">LUNAS</option>
-                                <option value="PIUTANG">PIUTANG</option>
+
+                        <div>
+                            <label for="id_member" class="block text-sm font-medium text-gray-700">Member</label>
+                            <select id="id_member" name="id_member"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                <option value=""></option>
+                                @foreach ($member as $m)
+                                    <option value="{{ $m->id }}">{{ $m->nama }}</option>
+                                @endforeach
                             </select>
                         </div>
-                        <div class="flex gap-5 w-full bg-gray-100 p-4 items-center justify-between rounded-xl mb-4">
-                            <div>DETAIL</div>
+                        <div>
+                            <label for="tanggal" class="block text-sm font-medium text-gray-700">Tanggal
+                                Transaksi</label>
+                            <input type="date" id="tanggal" name="tanggal" value="{{ date('Y-m-d') }}"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                required>
+                        </div>
+                        <div>
+                            <label for="batas_waktu" class="block text-sm font-medium text-gray-700">Batas Waktu</label>
+                            <input type="date" id="batas_waktu" name="batas_waktu" value="{{ date('Y-m-d') }}"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                required>
+                        </div>
+                        <div>
+                            <label for="tgl_bayar" class="block text-sm font-medium text-gray-700">Tanggal Bayar</label>
+                            <input type="date" id="tgl_bayar" name="tgl_bayar" value="{{ date('Y-m-d') }}"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                required>
+                        </div>
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                            <select id="status" name="status"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                <option value=""></option>
+                                <option value="baru">Baru</option>
+                                <option value="proses">Proses</option>
+                                <option value="selesai">Selesai</option>
+                                <option value="diambil">Diambil</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="dibayar" class="block text-sm font-medium text-gray-700">Dibayar</label>
+                            <select id="dibayar" name="dibayar"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                <option value=""></option>
+                                <option value="dibayar">Dibayar</option>
+                                <option value="belum_dibayar">Belum Dibayar</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="id_user" class="block text-sm font-medium text-gray-700">User</label>
+                        <select id="id_user" name="id_user"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <option value=""></option>
+                            @foreach ($user as $u)
+                                <option value="{{ $u->id }}">{{ $u->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- DETAIL TRANSAKSI --}}
+                    <div class="p-4 bg-gray-100 mt-6 rounded-xl font-bold">
+                        <div class="flex items-center justify-between">
+                            <div class="w-full">
+                                DETAIL TRANSAKSI
+                            </div>
                             <div><button id="addRowBtn"
-                                    class="bg-sky-400 hover:bg-sky-500 text-white px-2 rounded-xl">Add Row</button>
+                                    class="bg-sky-400 hover:bg-sky-500 text-white px-2 rounded-xl">+</button>
                             </div>
                         </div>
-                        <div class="border border-2 rounded-xl p-2 mb-2" id="produkContainer">
+                    </div>
+                    <div class="mt-4">
+                        <div class="border border-2 rounded-xl p-2 mb-2" id="detailContainer">
                         </div>
+                    </div>
+
+                    <div class="flex gap-5 mt-5">
+                        <div class="mb-5 w-full">
+                            <label for="biaya_tambahan"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Biaya Tambahan
+                            </label>
+                            <input type="number" id="biaya_tambahan" name="biaya_tambahan"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600"
+                                value="0" min="0" step="0.01" required />
+                        </div>
+                        <div class="mb-5 w-full">
+                            <label for="diskon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Diskon (%)
+                            </label>
+                            <input type="number" id="diskon" name="diskon" placeholder="Masukkan diskon"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600"
+                                value="0" min="0" step="0.01" />
+                        </div>
+                        <div class="mb-5 w-full">
+                            <label for="pajak"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Pajak
+                            </label>
+                            <input type="text" id="pajak" name="pajak"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600"
+                                readonly />
+                        </div>
+                        <div class="mb-5 w-full">
+                            <label for="total_bayar"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Total
+                                Bayar</label>
+                            <input type="number" id="total_bayar" name="total_bayar"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                readonly />
+                        </div>
+                    </div>
+
+
+                    <div class="mt-6">
                         <button type="submit"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-                    </form>
-                </div>
+                            class="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600">Simpan
+                            Transaksi</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
     <script>
         $(document).ready(function() {
+
+            // Fungsi menghitung Total Awal dari semua baris
+            function calculateTotalAwal() {
+                let totalAwal = 0;
+                // Iterasi semua elemen input dengan id yang diawali "keterangan"
+                $('[id^="keterangan"]').each(function() {
+                    const value = parseFloat($(this).val()) || 0;
+                    totalAwal += value;
+                });
+                return totalAwal;
+            }
+
+            // Fungsi bind event untuk baris tertentu
+            function bindRowEvents(rowId) {
+                const hargaInput = document.getElementById(`harga${rowId}`);
+                const qtyInput = document.getElementById(`qty${rowId}`);
+                const totalHargaInput = document.getElementById(`keterangan${rowId}`);
+
+                // Perhitungan total harga
+                const calculateTotalHarga = () => {
+                    const harga = parseFloat(hargaInput.value) || 0;
+                    const qty = parseInt(qtyInput.value) || 0;
+                    totalHargaInput.value = Math.round(harga * qty); // Bulatkan hasil ke bilangan bulat
+
+                    // Update total bayar setelah perubahan
+                    calculateTotalBayar();
+                };
+
+                // Event listener untuk input harga dan qty
+                hargaInput.addEventListener("input", calculateTotalHarga);
+                qtyInput.addEventListener("input", calculateTotalHarga);
+            }
+
+            // Fungsi menghitung Total Bayar
+            function calculateTotalBayar() {
+                const totalAwal = calculateTotalAwal(); // Hitung total awal dari semua baris
+                const diskonValue = $('#diskon').val().replace('%', ''); // Ambil angka diskon tanpa simbol "%"
+                const diskon = parseFloat(diskonValue) || 0; ; // Diskon dalam persen
+                const pajak = 12; // Pajak tetap 12%
+
+                // Validasi diskon agar tidak lebih dari 100%
+                const diskonValid = diskon > 100 ? 100 : diskon;
+
+                // Perhitungan nilai diskon dan pajak
+                const nilaiDiskon = Math.round((totalAwal * diskonValid) / 100); // Bulatkan nilai diskon
+                const nilaiPajak = Math.round((totalAwal * pajak) / 100); // Bulatkan nilai pajak
+
+                // Rumus Total Bayar
+                const totalBayar = Math.round(totalAwal - nilaiDiskon + nilaiPajak); // Bulatkan total bayar
+
+                // Update nilai di input
+                $('#pajak').val(nilaiPajak); // Pajak
+                $('#total_bayar').val(totalBayar); // Total Bayar
+            }
+
+            // Inisialisasi nilai default
+            $('#total_bayar').val('0');
+
+            // Event listener untuk diskon
+            $('#diskon').on('input', function() {
+                const diskonValue = parseFloat($(this).val()) || 0;
+
+                // Validasi agar diskon tidak lebih dari 100%
+                if (diskonValue > 100) {
+                    $(this).val(100);
+                } else {
+                    $(this).val(Math.round(diskonValue)); // Bulatkan diskon ke bilangan bulat
+                }
+
+                calculateTotalBayar();
+            });
+
+
+
+
+            // MENAMBAH ROW DETAIL TRANSAKSI
             $('#addRowBtn').click(function(event) {
                 event.preventDefault();
                 addRow();
@@ -67,96 +243,98 @@
 
             function addRow() {
                 rowCount++;
-                const newRow = `<div class="border border-2 rounded-xl mb-2 p-2" id="row${rowCount}">
-                                <div class="flex mb-2 gap-2">
-                                    <div class="mb-5 w-full">
-                                        <label for="produk${rowCount}"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Produk</label>
-                                        <select id="produk${rowCount}" name="produk[]" class="form-control w-full"
-                                            onchange="getProduk(${rowCount})">
-                                            <option value="">Pilih...</option>
-                                            @foreach ($produk as $k)
-                                                <option value="{{ $k->id }}">{{ $k->produk }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                const newRow = `
+                    <div class="border border-2 rounded-xl mb-2 p-2" id="row${rowCount}">
+                        <div class="flex mb-2 gap-2">
+                            <div class="mb-5 w-full">
+                                <label for="id_transaksi"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id Transaksi</label>
+                                <input type="text" id="id_transaksi" name="id_transaksi" value="{{ $kodeInvoice }}"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                    readonly required />
+                            </div>
+    
+                            <div class="mb-5 w-full">
+                                <label for="id_paket${rowCount}"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Paket</label>
+                                <select id="id_paket${rowCount}" name="id_paket[]" onchange="getJenis(${rowCount})"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                    required>
+                                    <option value=""></option>
+                                    @foreach ($paket as $k)
+                                        <option value="{{ $k->id }}">{{ $k->jenis }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                            <div class="mb-5 w-full">
+                                <label for="harga${rowCount}"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white " placeholder="Harga">Harga</label>
+                                <input type="number" id="harga${rowCount}" name="harga[]" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" readonly />
+                            </div>
 
-                                    <div class="mb-5 w-full">
-                                        <label for="harga${rowCount}"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga</label>
-                                        <input type="number" id="harga${rowCount}" name="harga[]" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" readonly />
-                                    </div>
-                                    <div class="mb-5 w-full">
-                                        <label for="qty${rowCount}"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Qty</label>
-                                        <input type="number" id="qty${rowCount}" name="qty[]"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            required value="0"/>
-                                    </div>
-                                    <div class="mb-5 w-full">
-                                        <label for="total_harga${rowCount}"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Total Harga</label>
-                                        <input type="number" id="total_harga${rowCount}" name="total_harga[]"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            required readonly/>
-                                    </div>
-                                    <button type="button" class="px-2 bg-red-100" onclick="removeRow(${rowCount})">
-                                        Hapus
-                                    </button>
-                                </div>
-                            </div>`;
-                $('#produkContainer').append(newRow);
-                $(`#produk${rowCount}`).select2({
-                    placeholder: "Pilih Produk"
+                            <div class="mb-5 w-full">
+                                <label for="qty${rowCount}"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Qty</label>
+                                <input type="number" id="qty${rowCount}" name="qty[]"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                    required value="0" />
+                            </div>
+                            <div class="mb-5 w-full">
+                                <label for="keterangan${rowCount}"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Keterangan</label>
+                                <input type="number" id="keterangan${rowCount}" name="keterangan[]"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    required readonly/>
+                            </div>
+                            <button type="button" class="btn-remove px-2 bg-red-100" data-row-id="${rowCount}">
+                                Hapus
+                            </button>
+                        </div>
+                    </div>`;
+                $('#detailContainer').append(newRow);
+                $(`#detail${rowCount}`).select2({
+                    placeholder: "Pilih Detail"
                 });
 
                 // tambahin ini
                 bindRowEvents(rowCount);
             }
 
-            // Menambahkan event listener ke elemen dinamis
-            function bindRowEvents(rowId) {
-                const hargaInput = document.getElementById(`harga${rowId}`);
-                const qtyInput = document.getElementById(`qty${rowId}`);
-                const totalHargaInput = document.getElementById(`total_harga${rowId}`);
-
-                // Perhitungan total harga
-                const calculateTotalHarga = () => {
-                    const harga = parseFloat(hargaInput.value) || 0;
-                    const qty = parseInt(qtyInput.value) || 0;
-                    totalHargaInput.value = harga * qty;
-                };
-
-                // Event listener pada qty
-                qtyInput.addEventListener("input", calculateTotalHarga);
-            }
+            // MENGHAPUS ROW DETAIL TRANSAKSI
+            $(document).on('click', '.btn-remove', function() {
+                const rowId = $(this).data('row-id');
+                $(`#row${rowId}`).remove();
+                calculateTotal();
+            });
         });
-
-        // Untuk remove
-        function removeRow(rowId) {
-            $(`#row${rowId}`).remove();
-            updateRowNumbers();
-        }
     </script>
 
     <script>
-        const getProduk = (rowCount) => {
-            const produkId = document.getElementById(`produk${rowCount}`).value;
+        const getJenis = (rowCount) => {
+            const jenisId = document.getElementById(`id_paket${rowCount}`).value;
 
-            if (!produkId) {
-                document.getElementById(`harga${rowCount}`).value = ""; // Kosongkan jika tidak ada produk dipilih
+            // Jika tidak ada jenis yang dipilih, reset harga
+            if (!jenisId) {
+                document.getElementById(`harga${rowCount}`).value = "";
                 return;
             }
 
-            axios.get(`/produk/produk_name/${produkId}`)
+            // Memanggil endpoint untuk mendapatkan data harga
+            axios.get(`/paket/paket_jenis/${jenisId}`)
                 .then(response => {
-                    const produk = response.data.produk;
-                    document.getElementById(`harga${rowCount}`).value = produk ? produk.harga : "";
+                    const paket = response.data.paket;
+
+                    // Jika data ditemukan, isi input harga
+                    document.getElementById(`harga${rowCount}`).value = paket ? paket.harga : "";
                 })
                 .catch(error => {
-                    console.error("Gagal memuat data produk:", error);
+                    console.error("Gagal memuat data harga paket:", error);
+
+                    // Reset input harga jika terjadi error
                     document.getElementById(`harga${rowCount}`).value = "";
                 });
         };
     </script>
-</x-app-layout> --}}
+
+</x-app-layout>

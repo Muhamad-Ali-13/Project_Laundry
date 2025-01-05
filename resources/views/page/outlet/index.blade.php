@@ -33,7 +33,7 @@
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Masukan Alamat disini...">
                             </div>
-                            <button type="submit"
+                            <button type="submit" onclick="outletcreate()"
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">SIMPAN</button>
                         </form>
                     </div>
@@ -76,16 +76,18 @@
                                                 {{ $k->alamat }}
                                             </td>
                                             <td class="px-6 py-4">
-                                                <button type="button" data-id="{{ $k->id }}"
-                                                    data-modal-target="sourceModal"
-                                                    data-nama="{{ $k->nama }}"
-                                                    data-alamat="{{ $k->alamat }}"onclick="editSourceModal(this)"
-                                                    class="bg-amber-500 hover:bg-amber-600 px-3 py-1 rounded-md text-xs text-white">
-                                                    Edit
+                                                <button type="button"
+                                                    class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"
+                                                    onclick="editSourceModal(this)" data-modal-target="sourceModal"
+                                                    data-id="{{ $k->id }}" data-nama="{{ $k->nama }}"
+                                                    data-alamat="{{ $k->alamat }}">
+                                                    <i class="fi fi-sr-file-edit"></i>
                                                 </button>
                                                 <button
-                                                    onclick="return outletDelete('{{ $k->id }}','{{ $k->nama }}')"
-                                                    class="bg-red-500 hover:bg-bg-red-300 px-3 py-1 rounded-md text-xs text-white">Delete</button>
+                                                    class="bg-red-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-red-500"
+                                                    onclick="return outletDelete ('{{ $k->id }}','{{ $k->nama }}')">
+                                                    <i class="fi fi-sr-delete-document"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -131,7 +133,7 @@
                         </div>
                     </div>
                     <div class="flex items-center p-4 space-x-2 border-t border-gray-200 rounded-b">
-                        <button type="submit" id="formSourceButton"
+                        <button type="submit" id="formSourceButton" onclick="outletupdate"
                             class="bg-green-400 m-2 w-40 h-10 rounded-xl hover:bg-green-500">Simpan</button>
                         <button type="button" data-modal-target="sourceModal" onclick="sourceModalClose(this)"
                             class="bg-red-500 m-2 w-40 h-10 rounded-xl text-white hover:shadow-lg hover:bg-red-600">Batal</button>
@@ -140,61 +142,90 @@
             </div>
         </div>
     </div>
-</x-app-layout>
-<script>
-    const editSourceModal = (button) => {
-        const formModal = document.getElementById('formSourceModal');
-        const modalTarget = button.dataset.modalTarget;
-        const id = button.dataset.id;
-        const nama = button.dataset.nama;
-        const alamat = button.dataset.alamat;
-        const jenis_kelamin = button.dataset.jenis_kelamin;
-        let url = "{{ route('outlet.update', ':id') }}".replace(':id', id);
+    <script>
+        const editSourceModal = (button) => {
+            const formModal = document.getElementById('formSourceModal');
+            const modalTarget = button.dataset.modalTarget;
+            const id = button.dataset.id;
+            const nama = button.dataset.nama;
+            const alamat = button.dataset.alamat;
+            const jenis_kelamin = button.dataset.jenis_kelamin;
+            let url = "{{ route('outlet.update', ':id') }}".replace(':id', id);
+            console.log(url);
 
-        let status = document.getElementById(modalTarget);
-        document.getElementById('title_source').innerText = `UPDATE OUTLET ${nama}`;
+            let status = document.getElementById(modalTarget);
+            document.getElementById('title_source').innerText = `UPDATE OUTLET ${nama}`;
+            document.getElementById('nama').value = nama;
+            document.getElementById('alamat').value = alamat;
+            let event = new Event('change');
+            document.getElementById('alamat').dispatchEvent(event);
 
-        document.getElementById('nama').value = nama;
-        document.getElementById('alamat').value = alamat;
-            
-        document.getElementById('formSourceButton').innerText = 'Simpan';
-        document.getElementById('formSourceModal').setAttribute('action', url);
-        let csrfToken = document.createElement('input');
-        csrfToken.setAttribute('type', 'hidden');
-        csrfToken.setAttribute('value', '{{ csrf_token() }}');
-        formModal.appendChild(csrfToken);
+            document.getElementById('formSourceButton').innerText = 'Simpan';
+            document.getElementById('formSourceModal').setAttribute('action', url);
+            let csrfToken = document.createElement('input');
+            csrfToken.setAttribute('type', 'hidden');
+            csrfToken.setAttribute('value', '{{ csrf_token() }}');
+            formModal.appendChild(csrfToken);
 
-        let methodInput = document.createElement('input');
-        methodInput.setAttribute('type', 'hidden');
-        methodInput.setAttribute('name', '_method');
-        methodInput.setAttribute('value', 'PATCH');
-        formModal.appendChild(methodInput);
+            let methodInput = document.createElement('input');
+            methodInput.setAttribute('type', 'hidden');
+            methodInput.setAttribute('name', '_method');
+            methodInput.setAttribute('value', 'PATCH');
+            formModal.appendChild(methodInput);
 
-        status.classList.toggle('hidden');
-    }
-
-    const sourceModalClose = (button) => {
-        const modalTarget = button.dataset.modalTarget;
-        let status = document.getElementById(modalTarget);
-        status.classList.toggle('hidden');
-    }
-
-    const outletDelete = async (id, nama) => {
-        let tanya = confirm(`Apakah anda yakin untuk menghapus OUTLET ${nama} ?`);
-        if (tanya) {
-            await axios.post(`/outlet/${id}`, {
-                    '_method': 'DELETE',
-                    '_token': $('meta[name="csrf-token"]').attr('content')
-                })
-                .then(function(response) {
-                    // Handle success
-                    location.reload();
-                })
-                .catch(function(error) {
-                    // Handle error
-                    alert('Error deleting record');
-                    console.log(error);
-                });
+            status.classList.toggle('hidden');
         }
-    }
-</script>
+
+        const sourceModalClose = (button) => {
+            const modalTarget = button.dataset.modalTarget;
+            let status = document.getElementById(modalTarget);
+            status.classList.toggle('hidden');
+        }
+
+        const outletDelete = async (id, nama) => {
+            let tanya = confirm(`Apakah anda yakin untuk menghapus OUTLET ${nama} ?`);
+            if (tanya) {
+                await axios.post(`/outlet/${id}`, {
+                        '_method': 'DELETE',
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    })
+                    .then(function(response) {
+                        // Handle success
+                        // location.reload();
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: '{{ session('message_delete') }}',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });
+                    })
+                    .catch(function(error) {
+                        // Handle error
+                        alert('Error deleting record');
+                        console.log(error);
+                    });
+            }
+        }
+    </script>
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
+    @if (session('message_update'))
+        <script>
+            Swal.fire({
+                title: 'Updated!',
+                text: '{{ session('message_update') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
+
+</x-app-layout>

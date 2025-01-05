@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Detail_TransaksiController;
+use App\Http\Controllers\laporanTransaksiController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OutletController;
 use App\Http\Controllers\PaketController;
@@ -21,6 +22,11 @@ Route::resource('outlet', OutletController::class)->middleware('auth');
 Route::resource('paket', PaketController::class)->middleware('auth');
 Route::resource('transaksi', TransaksiController::class)->middleware('auth');
 Route::resource('detail_transaksi', Detail_TransaksiController::class)->middleware('auth');
+Route::resource('laporanTransaksi', laporanTransaksiController::class);
+Route::get('/paket/paket_jenis/{id}', [PaketController::class, 'getJenis']);
+Route::post('/update/{id}', [TransaksiController::class, 'update']);
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

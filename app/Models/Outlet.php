@@ -20,10 +20,14 @@ class Outlet extends Model
     {
         return $this->hasMany(User::class);
     }
-    public function paket(){
+    public function paket()
+    {
         return $this->hasMany(Paket::class, 'id');
     }
-    public function transaksi(){
+    public function transaksi()
+    {
         return $this->hasMany(Transaksi::class, 'id');
+        return $this->hasMany(Transaksi::class, 'id_outlet');
     }
+
 }

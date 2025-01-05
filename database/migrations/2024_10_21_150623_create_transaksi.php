@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('diskon');
             $table->integer('pajak');
             $table->enum('status',['baru','proses','selesai','diambil']);
-            $table->enum('dibayar',['dibayar','belum dibayar']);
+            $table->enum('dibayar',['dibayar','belum_dibayar']);
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->integer('total_bayar');
             $table->timestamps();

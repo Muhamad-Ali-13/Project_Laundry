@@ -17,4 +17,15 @@ class Detail_Transaksi extends Model
     ];
 
     protected $table = 'detail_transaksi';
+
+
+    public function paket()
+    {
+        return $this->belongsTo(Paket::class, 'id_paket');
+    }
+
+    public function detail()
+    {
+        return $this->hasMany(Detail_Transaksi::class, 'id_transaksi');
+    }
 }

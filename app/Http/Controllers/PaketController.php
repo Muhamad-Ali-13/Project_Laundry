@@ -67,17 +67,38 @@ class PaketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = [
-            'id_outlet' => $request->input('id_outlet'),
+        $paket = Paket::findOrFail($id);
+
+        // Validasi input
+        $request->validate([
+            'id_outlet_edit' => 'required|exists:outlet,id', // Validasi outlet harus ada
+            'jenis' => 'required|string|max:255',
+            'nama_paket' => 'required|string|max:255',
+            'harga' => 'required|numeric|min:0'
+        ]);
+
+        // Update data paket
+        $paket->update([
+            'id_outlet' => $request->input('id_outlet_edit'),
             'jenis' => $request->input('jenis'),
             'nama_paket' => $request->input('nama_paket'),
             'harga' => $request->input('harga'),
-        ];
+        ]);
 
-        $datas = paket::findOrFail($id);
-        $datas->update($data);
-        return back()->with('message_delete', 'Data Paket Sudah dihapus');
+        return redirect()->route('paket.index')->with('success', 'Paket berhasil diperbarui!');
     }
+
+    public function getJenis($id)
+    {
+        $paket = Paket::find($id);
+
+        if (!$paket) {
+            return response()->json(['message' => 'Paket not found'], 404);
+        }
+
+        return response()->json(['paket' => $paket]);
+    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -86,6 +107,6 @@ class PaketController extends Controller
     {
         $data = paket::findOrFail($id);
         $data->delete();
-        return back()->with('message_delete','Data paket Sudah dihapus');
+        return back()->with('message_delete', 'Data paket Sudah dihapus');
     }
 }

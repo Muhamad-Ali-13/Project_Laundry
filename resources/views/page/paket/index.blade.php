@@ -19,21 +19,15 @@
                         </div>
                         <form action="{{ route('paket.store') }}" method="post">
                             @csrf
-                            {{-- <div class="mb-5">
-                                <label for="base-input"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id Outlet</label>
-                                <input name="id_outlet" type="number" id="base-input"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Masukan Id Outlet disini...">
-                            </div> --}}
                             <div class="mb-5">
                                 <label for="id_outlet"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id Outlet</label>
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id
+                                    Outlet</label>
                                 <select class="js-example-placeholder-single js-states form-control w-full m-6"
                                     name="id_outlet" data-placeholder="Pilih Konsinyasi">
                                     <option value="">Pilih...</option>
                                     @foreach ($outlet as $o)
-                                        <option value="{{ $o->id }}">{{ $o->nama }}</option>                                        
+                                        <option value="{{ $o->id }}">{{ $o->nama }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -46,7 +40,8 @@
                             </div>
                             <div class="mb-5">
                                 <label for="base-input"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Paket</label>
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama
+                                    Paket</label>
                                 <input name="nama_paket" type="text" id="base-input"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Masukan Nama Paket disini...">
@@ -113,18 +108,21 @@
                                                 {{ $p->harga }}
                                             </td>
                                             <td class="px-6 py-4">
-                                                <button type="button" data-id="{{ $p->id }}"
-                                                    data-modal-target="sourceModal"
-                                                    data-id_outlet="{{ $p->id_outlet }}"
-                                                    data-jenis="{{ $p->jenis }}" 
-                                                    data-nama_paket="{{ $p->nama_paket }}" 
-                                                    data-harga="{{ $p->harga }}"onclick="editSourceModal(this)"
-                                                    class="bg-amber-500 hover:bg-amber-600 px-3 py-1 rounded-md text-xs text-white">
-                                                    Edit
+                                                <button type="button"
+                                                    class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"
+                                                    onclick="editSourceModal(this)" data-modal-target="sourceModal"
+                                                    data-id="{{ $p->id }}"
+                                                    data-outlet="{{ $p->nama_outlet }}"
+                                                    data-jenis="{{ $p->jenis }}"
+                                                    data-nama_paket="{{ $p->nama_paket }}"
+                                                    data-harga="{{ $p->harga }}">
+                                                    <i class="fi fi-sr-file-edit"></i>
                                                 </button>
                                                 <button
-                                                    onclick="return paketDelete('{{ $p->id }}','{{ $p->outlet->nama }}')"
-                                                    class="bg-red-500 hover:bg-bg-red-300 px-3 py-1 rounded-md text-xs text-white">Delete</button>
+                                                    class="bg-red-400 mt-3 p-3 w-10 h-10 rounded-xl text-white hover:bg-red-500"
+                                                    onclick="return paketDelete('{{ $p->id }}','{{ $p->nama_outlet }}')">
+                                                    <i class="fi fi-sr-delete-document"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -156,25 +154,26 @@
                 <form method="POST" id="formSourceModal">
                     @csrf
                     <div class="flex flex-col  p-4 space-y-6">
-                        <div class="mb-5">
+                        <div class="">
                             <label for="id_outlet_edit"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Outlet</label>
                             <select class="js-example-placeholder-single js-states form-control w-full m-6"
                                 name="id_outlet_edit" id="id_outlet" data-placeholder="Pilih Outlet">
                                 <option value="">Pilih...</option>
                                 @foreach ($outlet as $o)
-                                    <option value="{{ $o->id }}">{{ $o->nama }}</option>                                        
+                                    <option value="{{ $o->id }}">{{ $o->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="">
+                        <div class="mb-5">
                             <label for="text" class="block mb-2 text-sm font-medium text-gray-900">Jenis</label>
                             <input type="text" id="jenis" name="jenis"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Masukan Jenis disini...">
                         </div>
                         <div class="mb-5">
-                            <label for="nama_paket" class="block mb-2 text-sm font-medium text-gray-900">Nama Paket</label>
+                            <label for="nama_paket" class="block mb-2 text-sm font-medium text-gray-900">Nama
+                                Paket</label>
                             <input type="text" id="nama_paket" name="nama_paket"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Masukan Nama Paket disini...">
@@ -253,7 +252,13 @@
                 })
                 .then(function(response) {
                     // Handle success
-                    location.reload();
+                    // location.reload();
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: '{{ session('message_delete') }}',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
                 })
                 .catch(function(error) {
                     // Handle error
@@ -262,4 +267,25 @@
                 });
         }
     }
+    @if (session('success'))
+        <
+        script >
+            Swal.fire({
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+</script>
+@endif
+@if (session('message_update'))
+    <script>
+        Swal.fire({
+            title: 'Updated!',
+            text: '{{ session('message_update') }}',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
 </script>

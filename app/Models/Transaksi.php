@@ -22,8 +22,20 @@ class Transaksi extends Model
         'status',
         'dibayar',
         'id_user',
-        'total_bayar'
+        'total_bayar',
+        
     ];
+
+    public static function createCode()
+    {
+        $latestCode = self::orderBy('kode_invoice', 'desc')->value('kode_invoice');
+        $latestCodeNumber = intval(substr($latestCode, 2));
+        $nextCodeNumber = $latestCodeNumber ? $latestCodeNumber + 1 : 1;
+        $formattedCodeNumber = sprintf("%05d", $nextCodeNumber);
+        return 'INV' . $formattedCodeNumber;
+
+    
+    }
 
     protected $table = 'transaksi';
 
@@ -36,4 +48,6 @@ class Transaksi extends Model
     public function user(){
         return $this->belongsTo(Outlet::class, 'id_user', 'id');
     }
+    
+    
 }
