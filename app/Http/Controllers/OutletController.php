@@ -10,7 +10,15 @@ class OutletController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() 
+    {
+        $data = Outlet::all();
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    public function create()
     {
         $outlet = Outlet::paginate(5);
         return view('page.outlet.index')->with([
@@ -19,26 +27,20 @@ class OutletController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $data = [
-            'nama' => $request->input('nama'),
+            'nama_outlet' => $request->input('nama_outlet'),
             'alamat' => $request->input('alamat'),
         ];
 
         Outlet::create($data);
-
-        return back()->with('message_delete', 'Data Outlet Sudah dihapus');
+        return response()->json([
+            'succes' => "Data Added!"
+        ]);
+        // return back()->flash('success', 'Data Outlet Sudah ditambahkan');
     }
 
     /**
@@ -63,13 +65,16 @@ class OutletController extends Controller
     public function update(Request $request, string $id)
     {
         $data = [
-            'nama' => $request->input('nama'),
+            'nama_outlet' => $request->input('nama_outlet'),
             'alamat' => $request->input('alamat'),
         ];
 
         $datas = Outlet::findOrFail($id);
         $datas->update($data);
-        return back()->with('message_delete', 'Data Outlet Sudah dihapus');
+        return response()->json([
+            'message_update' => "Data Updated!"
+        ]);
+        // return back()->with('message_update', 'Data Outlet Sudah diupdate');
     }
 
     /**
@@ -79,6 +84,9 @@ class OutletController extends Controller
     {
         $data = Outlet::findOrFail($id);
         $data->delete();
-        return back()->with('message_delete','Data Outlet Sudah dihapus');
+        return response()->json([
+            'message_delete' => "Data Deleted!"
+        ]);
+        // return back()->with('message_delete', 'Data Outlet Sudah dihapus');
     }
 }

@@ -27,7 +27,7 @@
                                     name="id_outlet" data-placeholder="Pilih Konsinyasi">
                                     <option value="">Pilih...</option>
                                     @foreach ($outlet as $o)
-                                        <option value="{{ $o->id }}">{{ $o->nama }}</option>
+                                        <option value="{{ $o->id }}">{{ $o->nama_outlet }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -96,7 +96,7 @@
                                                 {{ $paket->perPage() * ($paket->currentPage() - 1) + $key + 1 }}
                                             </th>
                                             <td class="px-6 py-4">
-                                                {{ $p->Outlet->nama }}
+                                                {{ $p->Outlet->nama_outlet }}
                                             </td>
                                             <td class="px-6 py-4">
                                                 {{ $p->jenis }}
@@ -111,8 +111,7 @@
                                                 <button type="button"
                                                     class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"
                                                     onclick="editSourceModal(this)" data-modal-target="sourceModal"
-                                                    data-id="{{ $p->id }}"
-                                                    data-outlet="{{ $p->nama_outlet }}"
+                                                    data-id="{{ $p->id }}" data-outlet="{{ $p->nama_outlet }}"
                                                     data-jenis="{{ $p->jenis }}"
                                                     data-nama_paket="{{ $p->nama_paket }}"
                                                     data-harga="{{ $p->harga }}">
@@ -161,7 +160,7 @@
                                 name="id_outlet_edit" id="id_outlet" data-placeholder="Pilih Outlet">
                                 <option value="">Pilih...</option>
                                 @foreach ($outlet as $o)
-                                    <option value="{{ $o->id }}">{{ $o->nama }}</option>
+                                    <option value="{{ $o->id }}">{{ $o->nama_outlet }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -251,8 +250,10 @@
                     '_token': $('meta[name="csrf-token"]').attr('content')
                 })
                 .then(function(response) {
-                    // Handle success
-                    // location.reload();
+                    // Handle successl
+                    setTimeout(() => {
+                        location.reload();
+                    }, 500);
                     Swal.fire({
                         title: 'Deleted!',
                         text: '{{ session('message_delete') }}',
@@ -267,16 +268,16 @@
                 });
         }
     }
-    @if (session('success'))
-        <
-        script >
-            Swal.fire({
-                title: 'Success!',
-                text: '{{ session('success') }}',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
 </script>
+@if (session('success'))
+    <script>
+        Swal.fire({
+            title: 'Success!',
+            text: '{{ session('success') }}',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    </script>
 @endif
 @if (session('message_update'))
     <script>
@@ -288,4 +289,3 @@
         });
     </script>
 @endif
-</script>

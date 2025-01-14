@@ -22,7 +22,7 @@
                             <div class="mb-5">
                                 <label for="base-input"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
-                                <input name="nama" type="text" id="base-input"
+                                <input name="nama_outlet" type="text" id="base-input"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Masukan Nama disini...">
                             </div>
@@ -70,7 +70,7 @@
                                                 {{ $outlet->perPage() * ($outlet->currentPage() - 1) + $key + 1 }}
                                             </th>
                                             <td class="px-6 py-4">
-                                                {{ $k->nama }}
+                                                {{ $k->nama_outlet }}
                                             </td>
                                             <td class="px-6 py-4">
                                                 {{ $k->alamat }}
@@ -79,13 +79,14 @@
                                                 <button type="button"
                                                     class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"
                                                     onclick="editSourceModal(this)" data-modal-target="sourceModal"
-                                                    data-id="{{ $k->id }}" data-nama="{{ $k->nama }}"
+                                                    data-id="{{ $k->id }}"
+                                                    data-nama_outlet="{{ $k->nama_outlet }}"
                                                     data-alamat="{{ $k->alamat }}">
                                                     <i class="fi fi-sr-file-edit"></i>
                                                 </button>
                                                 <button
                                                     class="bg-red-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-red-500"
-                                                    onclick="return outletDelete ('{{ $k->id }}','{{ $k->nama }}')">
+                                                    onclick="return outletDelete ('{{ $k->id }}','{{ $k->nama_outlet }}')">
                                                     <i class="fi fi-sr-delete-document"></i>
                                                 </button>
                                             </td>
@@ -121,7 +122,7 @@
                     <div class="flex flex-col  p-4 space-y-6">
                         <div class="">
                             <label for="text" class="block mb-2 text-sm font-medium text-gray-900">Nama</label>
-                            <input type="text" id="nama" name="nama"
+                            <input type="text" id="nama_outlet" name="nama_outlet"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Masukan Nama disini...">
                         </div>
@@ -147,15 +148,15 @@
             const formModal = document.getElementById('formSourceModal');
             const modalTarget = button.dataset.modalTarget;
             const id = button.dataset.id;
-            const nama = button.dataset.nama;
+            const nama_outlet = button.dataset.nama_outlet;
             const alamat = button.dataset.alamat;
             const jenis_kelamin = button.dataset.jenis_kelamin;
             let url = "{{ route('outlet.update', ':id') }}".replace(':id', id);
             console.log(url);
 
             let status = document.getElementById(modalTarget);
-            document.getElementById('title_source').innerText = `UPDATE OUTLET ${nama}`;
-            document.getElementById('nama').value = nama;
+            document.getElementById('title_source').innerText = `UPDATE OUTLET ${nama_outlet}`;
+            document.getElementById('nama_outlet').value = nama_outlet;
             document.getElementById('alamat').value = alamat;
             let event = new Event('change');
             document.getElementById('alamat').dispatchEvent(event);
@@ -182,8 +183,8 @@
             status.classList.toggle('hidden');
         }
 
-        const outletDelete = async (id, nama) => {
-            let tanya = confirm(`Apakah anda yakin untuk menghapus OUTLET ${nama} ?`);
+        const outletDelete = async (id, nama_outlet) => {
+            let tanya = confirm(`Apakah anda yakin untuk menghapus OUTLET ${nama_outlet} ?`);
             if (tanya) {
                 await axios.post(`/outlet/${id}`, {
                         '_method': 'DELETE',
@@ -191,7 +192,9 @@
                     })
                     .then(function(response) {
                         // Handle success
-                        // location.reload();
+                        setTimeout(() => {
+                            location.reload();
+                        }, 500);
                         Swal.fire({
                             title: 'Deleted!',
                             text: '{{ session('message_delete') }}',

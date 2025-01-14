@@ -24,8 +24,8 @@ class Detail_Transaksi extends Model
         return $this->belongsTo(Paket::class, 'id_paket');
     }
 
-    public function detail()
+    public function transaksi()
     {
-        return $this->hasMany(Detail_Transaksi::class, 'id_transaksi');
+        return $this->belongsTo(Transaksi::class, 'id_transaksi', 'kode_invoice');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class MemberController extends Controller
 {
@@ -31,6 +32,7 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
+        
         $data = [
             'nama' => $request->input('nama'),
             'alamat' => $request->input('alamat'),
@@ -39,7 +41,9 @@ class MemberController extends Controller
 
         Member::create($data);
 
-        return back()->with('message_delete', 'Data Member Sudah dihapus');
+        session()->flash('success', 'Data Member berhasil ditambahkan.');
+        return back();
+        // ->with('message_delete', 'Data Member Sudah dihapus')
     }
 
     /**
@@ -71,7 +75,7 @@ class MemberController extends Controller
 
         $datas = Member::findOrFail($id);
         $datas->update($data);
-        return back()->with('message_delete', 'Data Member Sudah dihapus');
+        return back()->with('message_update', 'Data Member Sudah diupdate');
     }
 
     /**

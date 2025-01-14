@@ -11,11 +11,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Response;
-use PHPUnit\Event\Tracer\Tracer;
-
-use function Illuminate\Log\log;
 
 class TransaksiController extends Controller
 {
@@ -27,7 +22,6 @@ class TransaksiController extends Controller
         $data = Transaksi::paginate(5);
         return view('page.transaksi.index')->with([
             'data' => $data,
-
         ]);
     }
 
@@ -41,8 +35,8 @@ class TransaksiController extends Controller
         $user = User::all();
         $paket = Paket::all();
         $kodeInvoice = Transaksi::createCode();
-        $id_transaksi = Transaksi::createCode();
-        return view('page.transaksi.create', compact('kodeInvoice'), compact('id_transaksi'))->with([
+        // $idTransaksi = Transaksi::createCode();
+        return view('page.transaksi.create', compact('kodeInvoice'))->with([
             'outlet' => $outlet,
             'member' => $member,
             'user' => $user,
@@ -55,62 +49,83 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'id_outlet' => 'required',
-            'kode_invoice' => 'required',
-            'id_member' => 'required',
+        $kodeInvoice = $request->input('kode_invoice');
+        // Validasi input untuk memastikan data lengkap
+        $request->validate([
+            'id_outlet' => 'required|exists:outlet,id',
+            'kode_invoice' => 'required|unique:transaksi',
+            'id_member' => 'required|exists:member,id',
             'tanggal' => 'required|date',
-            'status' => 'required',
-            'dibayar' => 'required|in:belum_dibayar,dibayar',
             'batas_waktu' => 'required|date',
-            'tgl_bayar' => 'nullable|date',
-            'biaya_tambahan' => 'required|numeric|min:0',
-            'diskon' => 'required|numeric|min:0',
-            'pajak' => 'required|numeric|min:0',
-            'id_user' => 'required|exists:users,id',
-            'total_bayar' => 'required|numeric|min:0',
+            'biaya_tambahan' => 'nullable|numeric',
+            'diskon' => 'nullable|numeric',
+            'pajak' => 'nullable|numeric',
+            'status' => 'nullable|in:baru,proses,selesai,diambil',
+            'dibayar' => 'nullable|in:dibayar,belum dibayar',
+            'total_bayar' => 'required|numeric',
+            'id_paket' => 'required|array',
+            'qty' => 'required|array',
+            'qty.*' => 'required|numeric|min:1', // Pastikan qty ada dan valid
         ]);
 
-        $transaksi = Transaksi::create($validated);
+        // Simpan data transaksi utama
+        $transaksi = Transaksi::create([
+            'id_outlet' => $request->id_outlet,
+            'kode_invoice' => $request->kode_invoice,
+            'id_member' => $request->id_member,
+            'tanggal' => $request->tanggal,
+            'batas_waktu' => $request->batas_waktu,
+            'tgl_bayar' => null,
+            'biaya_tambahan' => $request->biaya_tambahan ?? 0,
+            'diskon' => $request->diskon ?? 0,
+            'pajak' => $request->pajak ?? 0,
+            'status' => $request->status ?? 'baru',
+            'dibayar' => in_array($request->dibayar, ['dibayar', 'belum dibayar']) ? $request->dibayar : 'belum dibayar',
+            'id_user' => Auth::user()->id,
+            'total_bayar' => $request->total_bayar ?? 0,
+        ]);
 
-        // Simpan detail transaksi jika ada
-        if ($request->has('id_paket')) {
-            $details = collect($request->id_paket)->map(function ($idPaket, $index) use ($request, $transaksi) {
-                return [
-                    'id_transaksi' => $transaksi->id,
-                    'id_paket' => $idPaket,
+        // Simpan detail transaksi
+        $kodeInvoice = $transaksi->kode_invoice; // Ambil kode_invoice dari transaksi utama
+        $detailTransaksiData = [];
+
+        foreach ($request->id_paket as $index => $id_paket) {
+            // Ambil paket berdasarkan ID
+            $paket = Paket::find($id_paket);
+
+            if ($paket) {
+                // Siapkan data untuk detail transaksi
+                $detailTransaksiData[] = [
+                    'id_transaksi' => $kodeInvoice, // Gunakan kode_invoice sebagai ID transaksi
+                    'id_paket' => $paket->id,
                     'qty' => $request->qty[$index],
-                    'keterangan' => $request->keterangan[$index],
+                    'keterangan' => $request->keterangan[$index] ?? null,
+                    
                 ];
-            });
-
-            // Insert all detail transaksi in one query
-            Detail_Transaksi::insert($details->toArray());
+            }
         }
 
-        // Redirect dengan pesan sukses
-        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil disimpan.');
+        // Masukkan data detail transaksi ke database
+        if (count($detailTransaksiData) > 0) {
+            Detail_Transaksi::insert($detailTransaksiData);
+        } else {
+            return back()->with('error', 'Tidak ada paket yang valid untuk disimpan.');
+        }
+
+        return redirect()->route('transaksi.index')->with('success', 'Data Transaksi berhasil ditambahkan.');
     }
 
 
-    public function updatePaymentStatus(Request $request, $id)
-    {
-        $transaksi = Transaksi::findOrFail($id);
-        $transaksi->dibayar = 'dibayar';
-        $transaksi->tgl_pembayaran = $request->tgl_pembayaran;
 
-        if ($transaksi->save()) {
-            return response()->json(['success' => true, 'message' => 'Status pembayaran berhasil diperbarui.']);
-        }
-
-        return response()->json(['success' => false, 'message' => 'Gagal memperbarui status pembayaran.'], 500);
-    }
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        // Implementasi untuk menampilkan detail transaksi
+        // $data = Transaksi::with(['detail_transaksi', 'outlet', 'member', 'user'])->findOrFail($id);
+        // return view('page.transaksi.show')->with([
+        //     'data' => $data,
+        // ]);
     }
 
     /**
@@ -118,7 +133,18 @@ class TransaksiController extends Controller
      */
     public function edit(string $id)
     {
-        // Implementasi untuk menampilkan form edit transaksi
+        $data = Transaksi::with('detail_transaksi')->findOrFail($id);
+        $outlet = Outlet::all();
+        $member = Member::all();
+        $user = User::all();
+        $paket = Paket::all();
+        return view('page.transaksi.edit')->with([
+            'data' => $data,
+            'outlet' => $outlet,
+            'member' => $member,
+            'user' => $user,
+            'paket' => $paket,
+        ]);
     }
 
     /**
@@ -126,24 +152,30 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Cari transaksi berdasarkan ID
-        $transaksi = Transaksi::find($id);
+        $request->validate([
+            'dibayar' => 'required|in:dibayar,belum dibayar', // Validasi status pembayaran
+            'tgl_bayar' => 'nullable|date', // Pastikan tgl_bayar adalah tanggal yang valid
+        ]);
 
-        if (!$transaksi) {
-            return Response::json(['success' => false, 'message' => 'Transaksi tidak ditemukan.']);
+        // Ambil data transaksi yang akan diupdate
+        $transaksi = Transaksi::findOrFail($id);
+
+        // Update status pembayaran
+        $transaksi->dibayar = $request->dibayar;
+
+        // Update tanggal pembayaran (jika dibayar)
+        if ($request->dibayar === 'dibayar') {
+            $transaksi->tgl_bayar = $request->tgl_bayar ?? now(); // Gunakan tanggal yang diinput atau tanggal sekarang
+        } else {
+            $transaksi->tgl_bayar = null; // Jika belum dibayar, kosongkan tanggal pembayaran
         }
-
-        // Update status pembayaran dan tanggal pembayaran
-        $transaksi->dibayar = 'dibayar';
-        $transaksi->tgl_bayar = $request->tgl_pembayaran;
 
         // Simpan perubahan ke database
-        if ($transaksi->save()) {
-            return Response::json(['success' => true, 'message' => 'Status pembayaran berhasil diubah.']);
-        } else {
-            return Response::json(['success' => false, 'message' => 'Gagal memperbarui status pembayaran.']);
-        }
+        $transaksi->save();
+
+        return redirect()->route('transaksi.index')->with('message_update', 'Data transaksi berhasil diperbarui!');
     }
+
 
 
     /**
@@ -152,17 +184,10 @@ class TransaksiController extends Controller
     public function destroy(string $id)
     {
         $transaksi = Transaksi::findOrFail($id);
-        $kodeInvoice = $transaksi->kode_invoice;
+        $id_invoice = $transaksi->kode_invoice;
 
-        // Ambil detail transaksi untuk memproses qty
-        $details = Detail_Transaksi::where('kode_invoice', $kodeInvoice)->get();
-
-        foreach ($details as $detail) {
-            // Logika untuk mengembalikan qty jika diperlukan
-        }
-
-        // Hapus detail transaksi dan data transaksi
-        Detail_Transaksi::where('kode_invoice', $kodeInvoice)->delete();
+        // Hapus detail penjualan dan data penjualan
+        Detail_Transaksi::where('id_transaksi', $id_invoice)->delete();
         $transaksi->delete();
 
         return back()->with('message_delete', 'Data Transaksi berhasil dihapus.');

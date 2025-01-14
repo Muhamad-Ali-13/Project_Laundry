@@ -95,8 +95,7 @@
                                                 <button type="button"
                                                     class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"
                                                     onclick="editSourceModal(this)" data-modal-target="sourceModal"
-                                                    data-id="{{ $k->id }}"
-                                                    data-nama="{{ $k->nama }}"
+                                                    data-id="{{ $k->id }}" data-nama="{{ $k->nama }}"
                                                     data-alamat="{{ $k->alamat }}"
                                                     data-jenis_kelamin="{{ $k->jenis_kelamin }}">
                                                     <i class="fi fi-sr-file-edit"></i>
@@ -186,13 +185,15 @@
         const alamat = button.dataset.alamat;
         const jenis_kelamin = button.dataset.jenis_kelamin;
         let url = "{{ route('member.update', ':id') }}".replace(':id', id);
+        console.log(url);
 
         let status = document.getElementById(modalTarget);
         document.getElementById('title_source').innerText = `UPDATE MEMBER ${nama}`;
-
         document.getElementById('nama').value = nama;
         document.getElementById('alamat').value = alamat;
         document.getElementById('jenis_kelamin').value = jenis_kelamin;
+        let event = new Event('change');
+        document.getElementById('jenis_kelamin').dispatchEvent(event);
 
         document.getElementById('formSourceButton').innerText = 'Simpan';
         document.getElementById('formSourceModal').setAttribute('action', url);
@@ -210,12 +211,6 @@
         status.classList.toggle('hidden');
     }
 
-    const sourceModalClose = (button) => {
-        const modalTarget = button.dataset.modalTarget;
-        let status = document.getElementById(modalTarget);
-        status.classList.toggle('hidden');
-    }
-
     const memberDelete = async (id, nama) => {
         let tanya = confirm(`Apakah anda yakin untuk menghapus Konsinyasi Member ${nama} ?`);
         if (tanya) {
@@ -225,7 +220,9 @@
                 })
                 .then(function(response) {
                     // Handle success
-                    // location.reload();
+                    setTimeout(() => {
+                        location.reload();
+                    },500);
                     Swal.fire({
                         title: 'Deleted!',
                         text: '{{ session('message_delete') }}',
@@ -239,6 +236,12 @@
                     console.log(error);
                 });
         }
+    }
+
+    const sourceModalClose = (button) => {
+        const modalTarget = button.dataset.modalTarget;
+        let status = document.getElementById(modalTarget);
+        status.classList.toggle('hidden');
     }
 </script>
 @if (session('success'))

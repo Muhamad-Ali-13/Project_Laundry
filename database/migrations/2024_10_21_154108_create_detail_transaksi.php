@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('detail_transaksi', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_transaksi'); // Pastikan ini ada
+            $table->string('id_transaksi'); // Simpan kode_invoice
+            $table->foreign('id_transaksi')->references('kode_invoice')->on('transaksi')->onDelete('cascade');
             $table->foreignId('id_paket')->constrained('paket')->onDelete('cascade');
             $table->integer('qty');
             $table->string('keterangan')->nullable();
             $table->timestamps();
-
-            $table->foreign('id_transaksi')->references('id')->on('transaksi')->onDelete('cascade');
         });
+        
     }
 
     /**

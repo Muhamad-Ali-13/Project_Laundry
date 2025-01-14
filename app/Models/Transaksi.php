@@ -32,7 +32,13 @@ class Transaksi extends Model
         $latestCodeNumber = intval(substr($latestCode, 2));
         $nextCodeNumber = $latestCodeNumber ? $latestCodeNumber + 1 : 1;
         $formattedCodeNumber = sprintf("%05d", $nextCodeNumber);
-        return 'INV' . $formattedCodeNumber;
+        return 'I' . $formattedCodeNumber;
+
+        // $latestCode = self::orderBy('id_transaksi', 'desc')->value('id_transaksi');
+        // $latestCodeNumber = intval(substr($latestCode, 2));
+        // $nextCodeNumber = $latestCodeNumber ? $latestCodeNumber + 1 : 1;
+        // $formattedCodeNumber = sprintf("%05d", $nextCodeNumber);
+        // return 'I' . $formattedCodeNumber;
 
     
     }
@@ -47,6 +53,10 @@ class Transaksi extends Model
     }
     public function user(){
         return $this->belongsTo(Outlet::class, 'id_user', 'id');
+    }
+    public function detailTransaksi()
+    {
+        return $this->hasMany(Detail_Transaksi::class, 'id_transaksi', 'kode_invoice');
     }
     
     

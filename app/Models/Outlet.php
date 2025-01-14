@@ -10,7 +10,7 @@ class Outlet extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama',
+        'nama_outlet',
         'alamat'
     ];
 

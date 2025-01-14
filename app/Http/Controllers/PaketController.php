@@ -43,7 +43,7 @@ class PaketController extends Controller
 
         paket::create($data);
 
-        return back()->with('message_delete', 'Data Paket Sudah dihapus');
+        return back()->with('success', 'Data Paket Sudah ditambahkan');
     }
 
     /**
@@ -85,7 +85,7 @@ class PaketController extends Controller
             'harga' => $request->input('harga'),
         ]);
 
-        return redirect()->route('paket.index')->with('success', 'Paket berhasil diperbarui!');
+        return redirect()->route('paket.index')->with('message_update', 'Paket berhasil diperbarui!');
     }
 
     public function getJenis($id)

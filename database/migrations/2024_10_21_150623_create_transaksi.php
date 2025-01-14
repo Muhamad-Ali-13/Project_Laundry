@@ -18,12 +18,12 @@ return new class extends Migration
             $table->foreignId('id_member')->constrained('member')->onDelete('cascade');
             $table->date('tanggal');
             $table->dateTime('batas_waktu');
-            $table->dateTime('tgl_bayar');
+            $table->dateTime('tgl_bayar')->nullable();
             $table->integer('biaya_tambahan');
             $table->integer('diskon');
             $table->integer('pajak');
             $table->enum('status',['baru','proses','selesai','diambil']);
-            $table->enum('dibayar',['dibayar','belum_dibayar']);
+            $table->enum('dibayar',['dibayar','belum dibayar']);
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->integer('total_bayar');
             $table->timestamps();

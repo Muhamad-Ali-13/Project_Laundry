@@ -5,11 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presensi Mahasiswa</title>
+    <title>Laporan Transaksi</title>
     <style>
         body {
-            width: 100%;
-            height: 100%;
             margin: 0;
             padding: 0;
             background-color: #FAFAFA;
@@ -21,226 +19,141 @@
 
         * {
             box-sizing: border-box;
-            -moz-box-sizing: border-box;
-        }
-
-        .subpage {
-            padding: 1cm;
-            border: 5px red solid;
-            height: 257mm;
-            /* Adjusted for A4 portrait height (297mm minus padding and border) */
-            outline: 2cm #FFEAEA solid;
-        }
-
-        td {
-            padding-top: 5px;
-        }
-
-        .kp {
-            text-align: center;
-        }
-
-        .left {
-            text-align: left;
-        }
-
-        .logo {
-            text-align: center;
-            font-size: small;
-        }
-
-        .text {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .cntr {
-            font-size: small;
-            text-align: left;
-            margin-left: 40px;
-            margin-right: 40px;
-        }
-
-        .translation {
-            display: block;
-            font-size: small;
-            margin-top: -9px;
-            font-style: italic;
-        }
-
-        table {
-            border-collapse: collapse;
-            margin-left: 40px;
-            margin-right: 40px;
-            margin-top: 10px;
-        }
-
-        .ini {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-            font-size: small;
-            padding: 0;
-        }
-
-        .ttd {
-            text-align: left;
-            font-size: small;
-            padding: 0px;
-            margin-top: -10px;
-            font-style: italic;
-        }
-
-        .ttd1 {
-            text-align: left;
-            font-size: small;
-            padding: 0px;
-        }
-
-        .left {
-            padding-left: 10px;
-        }
-
-        .footer {
-            background: #204b8c;
-            color: #fff;
-            text-align: center;
-            font-size: small;
-            padding-top: 10px;
-            padding-bottom: 10px;
-        }
-
-        .ket {
-            margin-left: 290px;
-        }
-
-        body {
-            font-family: 'Tahoma';
-        }
-
-        .tengah {
-            text-align: center;
         }
 
         .page {
-            width: 210mm;
-            /* Adjusted for A4 portrait width */
-            min-height: 297mm;
-            /* Adjusted for A4 portrait height */
-            padding: 0mm;
-            margin: 0mm auto;
+            width: 297mm;
+            min-height: 210mm;
+            padding: 10mm;
+            margin: 0 auto;
             border: 1px #D3D3D3 solid;
             border-radius: 5px;
             background: white;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            position: relative;
         }
 
-        .page::before {
-            content: "";
-            /* position:; */
-            top: 0;
-            left: 0;
-            width: 189px;
-            height: 189px;
-            background-size: cover;
-            background-repeat: no-repeat;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
         }
 
-        .page::after {
-            content: "";
-            /* position: ; */
-            bottom: 0;
-            right: 0;
-            width: 794px;
-            height: 49px;
-            background-size: cover;
-            background-repeat: no-repeat;
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+            font-size: 10pt;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .footer {
+            margin-top: 20mm;
+            text-align: center;
+            font-size: 10pt;
+            color: gray;
         }
 
         @page {
-            size: A4 portrait;
-            margin: 0;
+            size: A4 landscape;
+            margin: ;
         }
+
 
         @media print {
 
-            html,
-            body {
-                width: 210mm;
-                height: 297mm;
+            body,
+            html {
+                width: 300mm;
+                height: 210mm;
+                margin: 0;
+                padding: 0;
             }
 
             .page {
-                padding: 0mm;
-                margin: 0mm auto;
-                border: 1px #D3D3D3 solid;
-                border-radius: 5px;
-                background: white;
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-                position: relative;
+                padding: 5mm;
+                margin: 0 auto;
+                box-shadow: none;
+                border: none;
             }
 
-            .page::before {
-                content: "";
-                /* position: ; */
-                top: 0;
-                left: 0;
-                width: 189px;
-                height: 189px;
-                background-size: cover;
-                background-repeat: no-repeat;
+            table {
+                table-layout: auto;
+                width: 100%;
             }
 
-            .page::after {
-                content: "";
-                /* position: ; */
-                bottom: 0;
-                right: 0;
-                width: 794px;
-                height: 49px;
-                background-size: cover;
-                background-repeat: no-repeat;
+            th,
+            td {
+                padding: 5px;
+                font-size: 9pt;
             }
         }
     </style>
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
 
-    <div class="book">
-        <div class="page" id="result">
-            <div class="ml-[6px] mr-[90px] mt-10">
-                <table class="border border-1 border-black w-full">
-                    <thead>
-                        <tr>
-                            <th class="border border-1 border-black">NO</th>
-                            <th class="border border-1 border-black">KODE INVOICE</th>
-                            <th class="border border-1 border-black">TANGGAL</th>
-                            <th class="border border-1 border-black">MEMBER</th>
-                            <th class="border border-1 border-black">TOTAL</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                            $no = 1;
-                        @endphp
-                        @foreach ($data as $d)
-                            @php
-
-                            @endphp
-                            <tr>
-                                <td class="border border-1 border-black text-center">{{ $no++ }}</td>
-                                <td class="border border-1 border-black text-left pl-2">{{ $d->kode_invoice }}</td>
-                                <td class="border border-1 border-black text-center">{{ $d->tanggal }}</td>
-                                <td class="border border-1 border-black text-center">{{ $d->member->nama}}</td>
-                                <td class="border border-1 border-black text-right pl-2">Rp. {{ $d->total_bayar }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+    <div class="page">
+        <div class="header">
+            <h1 style="text-align: center;">Laporan Transaksi</h1>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>NO</th>
+                    <th>OUTLET</th>
+                    <th>KODE INVOICE</th>
+                    <th>MEMBER</th>
+                    <th>TANGGAL</th>
+                    <th>BATAS WAKTU</th>
+                    <th>TGL BAYAR</th>
+                    <th>BIAYA TAMBAHAN</th>
+                    <th>DISKON</th>
+                    <th>PAJAK</th>
+                    <th>TOTAL</th>
+                    <th>STATUS</th>
+                    <th>DIBAYAR</th>
+                    <th>ID USER</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $no = 1;
+                @endphp
+                @foreach ($data as $d)
+                    <tr>
+                        <td>{{ $no++ }}</td>
+                        <td>{{ $d->outlet->nama_outlet }}</td>
+                        <td class="text-left">{{ $d->kode_invoice }}</td>
+                        <td>{{ $d->member->id }}</td>
+                        <td>{{ $d->tanggal }}</td>
+                        <td>{{ $d->batas_waktu }}</td>
+                        <td>{{ $d->tgl_bayar }}</td>
+                        <td>{{ $d->biaya_tambahan }}</td>
+                        <td>{{ $d->diskon }}</td>
+                        <td>{{ $d->pajak }}</td>
+                        <td class="text-right">{{ number_format($d->total_bayar, 0, ',', '.') }}</td>
+                        <td>{{ $d->status }}</td>
+                        <td>{{ $d->dibayar }}</td>
+                        <td>{{ $d->user->id }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div class="footer">
+            <p>Dicetak pada {{ date('d-m-Y') }}</p>
         </div>
     </div>
 
@@ -248,5 +161,5 @@
 
 </html>
 <script>
-    // window.print();
+    // window.print(); // Aktifkan jika ingin otomatis mencetak
 </script>
